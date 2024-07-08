@@ -15,7 +15,7 @@ export class PostController {
   @Post('upload-profile-pic')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: './uploads/posts',
+      destination: './images/posts',
       filename: (req, file, cb) => {
         const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
         return cb(null, `${randomName}${extname(file.originalname)}`);
@@ -34,7 +34,7 @@ export class PostController {
 
   @Get('post-pics/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
-    return res.sendFile(filename, { root: './uploads/posts' });
+    return res.sendFile(filename, { root: './images/posts' });
   }
 
   @Get()

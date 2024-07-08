@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
 import { PostCommentService } from './post-comment.service';
 import { CreatePostCommentDto } from './dto/create-post-comment.dto';
 import { PostComment } from './entities/post-comment.entity';
@@ -6,6 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { v4 as uuidv4 } from 'uuid'; // Import the uuidv4 function from the uuid package
 import path from 'path';
+import { Response } from 'express';
 
 @Controller('post-comment')
 export class PostCommentController {
@@ -14,7 +15,7 @@ export class PostCommentController {
   @Post()
   @UseInterceptors(FileInterceptor('image_or_video', {
     storage: diskStorage({
-      destination: './uploads/comments',
+      destination: './images/comments',
       filename: (req, file, cb) => {
         const fileName = uuidv4() + path.extname(file.originalname);
         cb(null, fileName);
@@ -31,6 +32,13 @@ export class PostCommentController {
     return this.postCommentService.create(createPostCommentDto);
   }
 
+
+  @Get('comment-pics/:filename')
+  async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
+    return res.sendFile(filename, { root: './images/posts' });
+  }
+
+  
   @Get()
   findAll(): Promise<PostComment[]> {
     return this.postCommentService.findAll();

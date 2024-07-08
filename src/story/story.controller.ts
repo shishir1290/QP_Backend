@@ -14,7 +14,7 @@ export class StoryController {
   @Post()
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
-      destination: './uploads/story',
+      destination: './images/story',
       filename: (req, file, cb) => {
         const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
         return cb(null, `${randomName}${extname(file.originalname)}`);
@@ -28,7 +28,7 @@ export class StoryController {
 
   @Get('stories/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
-    return res.sendFile(filename, { root: './uploads/profile-pics' });
+    return res.sendFile(filename, { root: './images/profile-pics' });
   }
 
 
