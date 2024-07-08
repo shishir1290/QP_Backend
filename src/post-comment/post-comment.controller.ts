@@ -8,11 +8,11 @@ import { v4 as uuidv4 } from 'uuid'; // Import the uuidv4 function from the uuid
 import path from 'path';
 import { Response } from 'express';
 
-@Controller('post-comment')
+@Controller('api')
 export class PostCommentController {
   constructor(private readonly postCommentService: PostCommentService) {}
 
-  @Post()
+  @Post('save-user-comment-by-post')
   @UseInterceptors(FileInterceptor('image_or_video', {
     storage: diskStorage({
       destination: './images/comments',

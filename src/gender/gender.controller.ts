@@ -3,11 +3,11 @@ import { GenderService } from './gender.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
 import { Gender } from './entities/gender.entity';
 
-@Controller('genders')
+@Controller('api/genders')
 export class GenderController {
   constructor(private readonly genderService: GenderService) {}
 
-  @Post()
+  @Post("gender")
   create(@Body() createGenderDto: CreateGenderDto): Promise<Gender> {
     return this.genderService.create(createGenderDto);
   }

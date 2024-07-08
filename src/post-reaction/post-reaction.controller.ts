@@ -3,11 +3,11 @@ import { PostReactionService } from './post-reaction.service';
 import { CreatePostReactionDto } from './dto/create-post-reaction.dto';
 import { PostReaction } from './entities/post-reaction.entity';
 
-@Controller('post-reaction')
+@Controller('api')
 export class PostReactionController {
   constructor(private readonly postReactionService: PostReactionService) {}
 
-  @Post()
+  @Post('save-reaction-main-post')
   create(@Body() createPostReactionDto: CreatePostReactionDto): Promise<PostReaction> {
     return this.postReactionService.create(createPostReactionDto);
   }

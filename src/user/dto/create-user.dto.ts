@@ -156,6 +156,8 @@ export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   password: string;
+
+  __v: number;
 }
 
 

@@ -1,18 +1,17 @@
-// src/posts/post.controller.ts
-import { Controller, Get, Post, Body, Put, Param, Delete, UploadedFile, UseInterceptors, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete, UploadedFile, UseInterceptors, Res, Query } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { PostService } from './post.service';
 import { CreatePostDto } from './dto/create-post.dto';
 import { Post as PostEntity } from './entities/post.entity';
-import { diskStorage } from 'multer'
+import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Response } from 'express';
 
-@Controller('posts')
+@Controller('api')
 export class PostController {
   constructor(private readonly postService: PostService) {}
 
-  @Post('upload-profile-pic')
+  @Post('save-post')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './images/posts',
@@ -24,22 +23,30 @@ export class PostController {
   }))
   async create(@Body() createPostDto: CreatePostDto, @UploadedFile() image: Express.Multer.File): Promise<PostEntity> {
     if (image) {
-      // Handle image upload logic here
-      createPostDto.link_image = image.path; // Example: Save image path to link_image field
+      createPostDto.link_image = image.path;
     }
     return this.postService.create(createPostDto);
   }
 
+  @Get('get-all-users-posts')
+  async findAll(@Query('pageNo') pageNo: number = 1, @Query('pageSize') pageSize: number = 10): Promise<{ status: number, posts: PostEntity[], pageNo: number, pageSize: number, totalPosts: number, pageCount: number, isRetry: boolean }> {
+    const [posts, totalPosts] = await this.postService.findAll(pageNo, pageSize);
+    const pageCount = Math.ceil(Number(totalPosts) / Number(pageSize));
 
+    return {
+      status: 200,
+      posts,
+      pageNo,
+      pageSize,
+      totalPosts,
+      pageCount,
+      isRetry: false,
+    };
+  }
 
   @Get('post-pics/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
     return res.sendFile(filename, { root: './images/posts' });
-  }
-
-  @Get()
-  findAll(): Promise<PostEntity[]> {
-    return this.postService.findAll();
   }
 
   @Get(':id')

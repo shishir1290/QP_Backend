@@ -1,11 +1,11 @@
-// src/posts/entities/post.entity.ts
-import { User } from 'src/user/entities/user.entity';
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
+import { User } from 'src/user/entities/user.entity';
+import { v4 as uuid4 } from 'uuid';
 
 @Entity()
 export class Post {
-  @PrimaryGeneratedColumn("uuid")
-  _id: string; // Assuming UUID as primary key
+  @PrimaryGeneratedColumn('uuid')
+  _id: string;
 
   @Column({ nullable: true })
   description: string;
@@ -24,6 +24,9 @@ export class Post {
 
   @ManyToOne(() => User)
   user: User;
+
+  @Column({ nullable: true })
+  user_id: string;
 
   @Column({ nullable: true })
   location_id: string;
@@ -64,7 +67,7 @@ export class Post {
   @Column({ nullable: true })
   institute_id: string;
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming life_event_id is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   life_event_id: any;
 
   @Column({ nullable: true })
@@ -83,10 +86,10 @@ export class Post {
   post_background_color: string;
 
   @Column({ nullable: true })
-  status: string; // Corrected to use a specific data type compatible with PostgreSQL
+  status: string;
 
   @Column({ nullable: true })
-  ip_address: string; // Corrected assuming it's a string type
+  ip_address: string;
 
   @Column({ nullable: true })
   is_hidden: boolean;
@@ -95,10 +98,10 @@ export class Post {
   pin_post: boolean;
 
   @Column({ nullable: true })
-  created_by: string; // Corrected assuming it's a string type
+  created_by: string;
 
   @Column({ nullable: true })
-  updated_by: string; // Corrected assuming it's a string type
+  updated_by: string;
 
   @Column({ nullable: true })
   createdAt: Date;
@@ -109,13 +112,13 @@ export class Post {
   @Column({ nullable: true })
   __v: number;
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming media is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   media: any[];
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming shareMedia is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   shareMedia: any[];
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming tagged_user_list is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   tagged_user_list: any[];
 
   @Column({ nullable: true })
@@ -124,7 +127,7 @@ export class Post {
   @Column({ nullable: true })
   isFriendRequestSended: boolean;
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming comments is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   comments: any[];
 
   @Column({ nullable: true })
@@ -136,7 +139,7 @@ export class Post {
   @Column({ nullable: true })
   postShareCount: number;
 
-  @Column({ nullable: true, type: 'jsonb' }) // Assuming reactionTypeCountsByPost is stored as JSONB in PostgreSQL
+  @Column({ nullable: true, type: 'jsonb' })
   reactionTypeCountsByPost: any[];
 
   @Column({ nullable: true })

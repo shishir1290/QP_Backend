@@ -13,13 +13,13 @@ export class User {
   @Column()
   last_name: string;
 
-  @Column()
+  @Column({ nullable: true })
   username: string;
 
   @Column()
   email: string;
 
-  @Column()
+  @Column({ nullable: true })
   phone: string;
 
   @Column({ nullable: true })
@@ -31,10 +31,10 @@ export class User {
   @Column({ nullable: true })
   user_status: string;
 
-  @ManyToOne(() => Gender)
+  @ManyToOne(() => Gender, { nullable: true })
   gender: Gender;
 
-  @ManyToOne(() => Religion)
+  @ManyToOne(() => Religion, { nullable: true })
   religion: Religion;
 
   @Column({ nullable: true })
@@ -49,7 +49,7 @@ export class User {
   @Column({ nullable: true })
   passport: string;
 
-  @Column()
+  @Column({ nullable: true })
   last_login: string;
 
   @Column({ nullable: true })
@@ -61,22 +61,22 @@ export class User {
   @Column({ nullable: true })
   recovery_email: string;
 
-  @Column()
+  @Column({ nullable: true })
   relation_status: string;
 
-  @Column()
+  @Column({ nullable: true })
   home_town: string;
 
-  @Column()
+  @Column({ nullable: true })
   birth_place: string;
 
   @Column({ nullable: true })
   blood_group: string;
 
-  @Column()
+  @Column({ nullable: true })
   reset_password_token: string;
 
-  @Column()
+  @Column({ nullable: true})
   reset_password_token_expires: string;
 
   @Column({ nullable: true })
@@ -88,46 +88,46 @@ export class User {
   @Column({ nullable: true })
   ip_address: string;
 
-  @CreateDateColumn()
+  @CreateDateColumn({ nullable: true })
   createdAt: Date;
 
-  @UpdateDateColumn()
+  @UpdateDateColumn({ nullable: true })
   updatedAt: Date;
 
-  @VersionColumn()
+  @VersionColumn({ nullable: true })
   __v: number;
 
-  @Column()
+  @Column({ nullable: true })
   lock_profile: string;
 
-  @Column("simple-array")
+  @Column("simple-array", { nullable: true })
   email_list: string[];
 
   @Column("simple-array", { nullable: true })
   phone_list: string[];
 
-  @Column()
+  @Column({ nullable: true })
   user_about: string;
 
-  @Column()
+  @Column({ nullable: true })
   user_nickname: string;
 
   @Column({ nullable: true })
   present_town: string;
 
-  @Column()
+  @Column({ nullable: true })
   turn_on_earning_dashboard: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   date_of_birth_show_type: string;
 
-  @Column()
+  @Column({ nullable: true })
   email_privacy: string;
 
-  @Column()
+  @Column({ nullable: true })
   isProfileVerified: boolean;
 
-  @Column()
+  @Column({ nullable: true})
   fullName: string;
 
   @Column()

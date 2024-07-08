@@ -1,32 +1,47 @@
-// src/posts/post.service.ts
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository, UpdateResult } from 'typeorm';
+import { Repository } from 'typeorm';
 import { Post } from './entities/post.entity';
 import { CreatePostDto } from './dto/create-post.dto';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class PostService {
   constructor(
-    @InjectRepository(Post)
-    private readonly postRepository: Repository<Post>,
+    @InjectRepository(Post) private readonly postRepository: Repository<Post>,
+    @InjectRepository(User) private readonly userRepository: Repository<User>,
   ) {}
 
   async create(createPostDto: CreatePostDto): Promise<Post> {
+    const user_id = createPostDto.user_id;
+
+    const user = await this.userRepository.findOne({ where: { _id: user_id } });
     const post = this.postRepository.create(createPostDto);
+    post.user = user;
     return this.postRepository.save(post);
   }
 
-  async findAll(): Promise<Post[]> {
-    return this.postRepository.find();
+  async findAll(pageNo: number = 1, pageSize: number = 10): Promise<[Post[], number]> {
+    const skip = (pageNo - 1) * pageSize;
+    const [posts, totalPosts] = await this.postRepository.findAndCount({
+      relations: ['user'],
+      skip,
+      take: pageSize,
+    });
+    return [posts, totalPosts];
   }
 
   async findOne(id: string): Promise<Post> {
-    return this.postRepository.findOne({ where: { _id : id }, relations: ['user'] });
+    try {
+      const post = await this.postRepository.findOneOrFail({ where: { _id: id }, relations: ['user'] });
+      return post;
+    } catch (error) {
+      throw new Error(`Post with ID ${id} not found.`);
+    }
   }
 
   async update(id: string, updatePostDto: Partial<CreatePostDto>): Promise<Post> {
-    const postToUpdate = await this.postRepository.findOne({ where: { _id : id }, relations: ['user'] });
+    const postToUpdate = await this.postRepository.findOne({ where: { _id: id }, relations: ['user'] });
     if (!postToUpdate) {
       throw new Error(`Post with ID ${id} not found.`);
     }
