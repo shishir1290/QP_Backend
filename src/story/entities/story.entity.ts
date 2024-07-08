@@ -75,6 +75,6 @@ export class Story {
   @Column({ default: 0 })
   __v: number;
 
-  @ManyToOne(type => User)
-    user: User;
+  @Column()
+    user_id: string;
 }

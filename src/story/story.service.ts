@@ -3,12 +3,13 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class StoryService {
   constructor(
-    @InjectRepository(Story)
-    private storyRepository: Repository<Story>,
+    @InjectRepository(Story) private storyRepository: Repository<Story>,
+    @InjectRepository(User) private userRepository: Repository<User>,
   ) {}
 
   create(createStoryImageDto: CreateStoryImageDto): Promise<Story> {
