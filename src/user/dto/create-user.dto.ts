@@ -1,0 +1,47 @@
+export class CreateUserDto {
+    _id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    password: string;
+    username: string;
+    phone: string;
+    websites: string[];
+    profile_pic: string;
+    cover_pic: string;
+    user_status: string;
+    // date_of_birth: Date;
+    day: number;
+    month: number;
+    year: number;
+    // ----------------------------
+    user_bio: string;
+    language: string;
+    passport: string;
+    last_login: string;
+    user_2fa_status: string;
+    secondary_email: string;
+    recovery_email: string;
+    relation_status: string;
+    home_town: string;
+    birth_place: string;
+    blood_group: string;
+    reset_password_token: string;
+    reset_password_token_expires: Date;
+    user_role: string;
+    status: string;
+    ip_address: string;
+    created_by: string;
+    updated_by: string;
+    createdAt: Date;
+    updatedAt: Date;
+    __v: number;
+    lock_profile: boolean;
+    email_list: string[];
+    phone_list: string[];
+    user_about: string;
+    user_nickname: string;
+    present_town: string;
+    turn_on_earing_dashboard: string;
+    email_privacy: string;
+}
