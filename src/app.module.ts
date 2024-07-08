@@ -5,7 +5,9 @@ import { AuthModule } from './auth/auth.module';
 import { UserModule } from './user/user.module';
 import { GenderModule } from './gender/gender.module';
 import { ReligionModule } from './religion/religion.module';
-import { PostsModule } from './posts/posts.module';
+import { PostModule } from './post/post.module';
+import { PostReactionModule } from './post-reaction/post-reaction.module';
+import { PostCommentModule } from './post-comment/post-comment.module';
 import { StoryModule } from './story/story.module';
 
 @Module({
@@ -30,7 +32,9 @@ import { StoryModule } from './story/story.module';
     UserModule,
     GenderModule,
     ReligionModule,
-    PostsModule,
+    PostModule,
+    PostReactionModule,
+    PostCommentModule,
     StoryModule,
     // Other modules and providers
   ],

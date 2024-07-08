@@ -10,7 +10,7 @@ async function bootstrap() {
   app.use(cookieParser());
   app.enableCors({
     credentials: true,
-    origin: process.env.NODE_ENV === 'production' ? 'https://haque-vila.vercel.app' : 'http://localhost:3500', // Adjust the origin based on your frontend URL
+    origin: process.env.NODE_ENV === 'production' ? 'https://qp-new.vercel.app' : 'http://localhost:3000', // Adjust the origin based on your frontend URL
   });
 
   await app.listen(process.env.PORT || 4000);

@@ -1,47 +1,161 @@
+import { IsString, IsNotEmpty, IsEmail, IsDate, IsBoolean, IsArray, IsOptional } from 'class-validator';
+import { CreateGenderDto } from 'src/gender/dto/create-gender.dto';
+import { CreateReligionDto } from 'src/religion/dto/create-religion.dto';
+
 export class CreateUserDto {
+
     _id: string;
-    first_name: string;
-    last_name: string;
-    email: string;
-    password: string;
-    username: string;
-    phone: string;
-    websites: string[];
-    profile_pic: string;
-    cover_pic: string;
-    user_status: string;
-    // date_of_birth: Date;
-    day: number;
-    month: number;
-    year: number;
-    // ----------------------------
-    user_bio: string;
-    language: string;
-    passport: string;
-    last_login: string;
-    user_2fa_status: string;
-    secondary_email: string;
-    recovery_email: string;
-    relation_status: string;
-    home_town: string;
-    birth_place: string;
-    blood_group: string;
-    reset_password_token: string;
-    reset_password_token_expires: Date;
-    user_role: string;
-    status: string;
-    ip_address: string;
-    created_by: string;
-    updated_by: string;
-    createdAt: Date;
-    updatedAt: Date;
-    __v: number;
-    lock_profile: boolean;
-    email_list: string[];
-    phone_list: string[];
-    user_about: string;
-    user_nickname: string;
-    present_town: string;
-    turn_on_earing_dashboard: string;
-    email_privacy: string;
+
+  @IsString()
+  @IsNotEmpty()
+  first_name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  last_name: string;
+
+  @IsString()
+  @IsNotEmpty()
+  username: string;
+
+  @IsEmail()
+  @IsNotEmpty()
+  email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  phone: string;
+
+  @IsString()
+  profile_pic: string;
+
+  @IsString()
+  cover_pic: string;
+
+  @IsOptional()
+  @IsString()
+  user_status: string;
+
+  @IsNotEmpty()
+  gender: CreateGenderDto;
+
+  @IsNotEmpty()
+  religion: CreateReligionDto;
+
+  @IsDate()
+  @IsNotEmpty()
+  date_of_birth: Date;
+
+  @IsString()
+  @IsNotEmpty()
+  user_bio: string;
+
+  @IsOptional()
+  @IsString()
+  language: string;
+
+  @IsOptional()
+  @IsString()
+  passport: string;
+
+  @IsDate()
+  @IsNotEmpty()
+  last_login: string;
+
+  @IsOptional()
+  @IsString()
+  user_2fa_status: string;
+
+  @IsOptional()
+  @IsEmail()
+  secondary_email: string;
+
+  @IsOptional()
+  @IsEmail()
+  recovery_email: string;
+
+  @IsString()
+  @IsNotEmpty()
+  relation_status: string;
+
+  @IsString()
+  @IsNotEmpty()
+  home_town: string;
+
+  @IsString()
+  @IsNotEmpty()
+  birth_place: string;
+
+  @IsOptional()
+  @IsString()
+  blood_group: string;
+
+  @IsString()
+  @IsNotEmpty()
+  reset_password_token: string;
+
+  @IsString()
+  @IsNotEmpty()
+  reset_password_token_expires: string;
+
+  @IsOptional()
+  @IsString()
+  user_role: string;
+
+  @IsOptional()
+  @IsString()
+  status: string;
+
+  @IsOptional()
+  @IsString()
+  ip_address: string;
+
+  @IsNotEmpty()
+  lock_profile: string;
+
+  @IsArray()
+  @IsNotEmpty()
+  email_list: string[];
+
+  @IsOptional()
+  @IsArray()
+  phone_list: string[];
+
+  @IsString()
+  @IsNotEmpty()
+  user_about: string;
+
+  @IsString()
+  @IsNotEmpty()
+  user_nickname: string;
+
+  @IsOptional()
+  @IsString()
+  present_town: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  turn_on_earning_dashboard: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  date_of_birth_show_type: string;
+
+  @IsString()
+  @IsNotEmpty()
+  email_privacy: string;
+
+  @IsBoolean()
+  @IsNotEmpty()
+  isProfileVerified: boolean;
+
+  @IsString()
+  @IsNotEmpty()
+  fullName: string;
+
+  @IsString()
+  @IsNotEmpty()
+  password: string;
 }
+
+

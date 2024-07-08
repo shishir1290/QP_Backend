@@ -1,11 +1,36 @@
+import { IsString, IsNotEmpty, IsEmail, IsDate, IsBoolean, IsArray, IsOptional } from 'class-validator';
+
+
 export class CreateGenderDto {
-    _id?: string;
+    @IsString()
+    @IsNotEmpty()
     gender_name: string;
+  
+    @IsOptional()
+    @IsString()
     data_status: string;
+  
+    @IsOptional()
+    @IsString()
     ip_address: string;
+  
+    @IsOptional()
+    @IsString()
     created_by: string;
-    updated_by: string;
-    CreatedAt?: Date;
-    UpdatedAt?: Date;
-    __v?: number;
-}
+  
+    @IsOptional()
+    @IsString()
+    update_by: string;
+  
+    @IsDate()
+    @IsNotEmpty()
+    createdAt: Date;
+  
+    @IsDate()
+    @IsNotEmpty()
+    updatedAt: Date;
+  
+    @IsOptional()
+    @IsString()
+    __v: number;
+  }

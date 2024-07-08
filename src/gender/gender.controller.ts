@@ -1,35 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Ip } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { GenderService } from './gender.service';
 import { CreateGenderDto } from './dto/create-gender.dto';
-import { UpdateGenderDto } from './dto/update-gender.dto';
+import { Gender } from './entities/gender.entity';
 
-@Controller('api/gender')
+@Controller('genders')
 export class GenderController {
   constructor(private readonly genderService: GenderService) {}
 
   @Post()
-  create(@Body() createGenderDto: CreateGenderDto, @Req() request, @Ip() Ip: string) {
-    console.log(createGenderDto);
-    return this.genderService.create(createGenderDto, {ipAddress: Ip, userAgent: request.headers['user-agent']});
+  create(@Body() createGenderDto: CreateGenderDto): Promise<Gender> {
+    return this.genderService.create(createGenderDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Gender[]> {
     return this.genderService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Gender> {
     return this.genderService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateGenderDto: UpdateGenderDto) {
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateGenderDto: CreateGenderDto): Promise<Gender> {
     return this.genderService.update(id, updateGenderDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<void> {
     return this.genderService.remove(id);
   }
 }

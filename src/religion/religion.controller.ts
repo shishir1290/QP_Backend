@@ -1,34 +1,34 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Req, Ip } from '@nestjs/common';
+import { Controller, Get, Post, Body, Put, Param, Delete } from '@nestjs/common';
 import { ReligionService } from './religion.service';
 import { CreateReligionDto } from './dto/create-religion.dto';
-import { UpdateReligionDto } from './dto/update-religion.dto';
+import { Religion } from './entities/religion.entity';
 
-@Controller('api/religion')
+@Controller('religions')
 export class ReligionController {
   constructor(private readonly religionService: ReligionService) {}
 
   @Post()
-  create(@Body() createReligionDto: CreateReligionDto, @Req() request, @Ip() Ip: string) {
-    return this.religionService.create(createReligionDto, {ipAddress: Ip, userAgent: request.headers['user-agent']});
+  create(@Body() createReligionDto: CreateReligionDto): Promise<Religion> {
+    return this.religionService.create(createReligionDto);
   }
 
   @Get()
-  findAll() {
+  findAll(): Promise<Religion[]> {
     return this.religionService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Religion> {
     return this.religionService.findOne(id);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateReligionDto: UpdateReligionDto) {
+  @Put(':id')
+  update(@Param('id') id: string, @Body() updateReligionDto: CreateReligionDto): Promise<Religion> {
     return this.religionService.update(id, updateReligionDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<void> {
     return this.religionService.remove(id);
   }
 }

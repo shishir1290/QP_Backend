@@ -1,19 +1,11 @@
-import { Gender } from "src/gender/entities/gender.entity";
-import { Post } from "src/posts/entities/post.entity";
-import { Religion } from "src/religion/entities/religion.entity";
-import { StoryImage } from "src/story/entities/story-image.entity";
-import { StoryText } from "src/story/entities/story-text.entity";
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { v4 as uuid4 } from 'uuid';
+import { Gender } from 'src/gender/entities/gender.entity';
+import { Religion } from 'src/religion/entities/religion.entity';
+import { Entity, Column, PrimaryGeneratedColumn, CreateDateColumn, UpdateDateColumn, VersionColumn, ManyToOne } from 'typeorm';
 
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
   _id: string;
-
-  constructor(){
-    this._id = uuid4();
-  }
 
   @Column()
   first_name: string;
@@ -21,7 +13,7 @@ export class User {
   @Column()
   last_name: string;
 
-  @Column({ unique: true, nullable: true })
+  @Column()
   username: string;
 
   @Column()
@@ -29,9 +21,6 @@ export class User {
 
   @Column()
   phone: string;
-
-  @Column()
-  password: string;
 
   @Column({ nullable: true })
   profile_pic: string;
@@ -42,14 +31,14 @@ export class User {
   @Column({ nullable: true })
   user_status: string;
 
-  @Column({ nullable: true })
-  date_of_birth: Date;
-
-  @ManyToOne(() => Gender, (gender) => gender.user)
+  @ManyToOne(() => Gender)
   gender: Gender;
 
-  @ManyToOne(() => Religion, (religion) => religion.user)
+  @ManyToOne(() => Religion)
   religion: Religion;
+
+  @Column({ nullable: true })
+  date_of_birth: Date;
 
   @Column({ nullable: true })
   user_bio: string;
@@ -60,7 +49,7 @@ export class User {
   @Column({ nullable: true })
   passport: string;
 
-  @Column({ nullable: true })
+  @Column()
   last_login: string;
 
   @Column({ nullable: true })
@@ -72,23 +61,23 @@ export class User {
   @Column({ nullable: true })
   recovery_email: string;
 
-  @Column({ nullable: true })
+  @Column()
   relation_status: string;
 
-  @Column({ nullable: true })
+  @Column()
   home_town: string;
 
-  @Column({ nullable: true })
+  @Column()
   birth_place: string;
 
   @Column({ nullable: true })
   blood_group: string;
 
-  @Column({ nullable: true })
+  @Column()
   reset_password_token: string;
 
-  @Column({ nullable: true })
-  reset_password_token_expires: Date;
+  @Column()
+  reset_password_token_expires: string;
 
   @Column({ nullable: true })
   user_role: string;
@@ -99,58 +88,48 @@ export class User {
   @Column({ nullable: true })
   ip_address: string;
 
-  @Column({ nullable: true })
-  created_by: string;
-
-  @Column({ nullable: true })
-  updated_by: string;
-
-  @Column()
+  @CreateDateColumn()
   createdAt: Date;
 
-  @Column()
+  @UpdateDateColumn()
   updatedAt: Date;
 
-  @Column({ nullable: true })
+  @VersionColumn()
   __v: number;
 
-  @Column({ nullable: true })
-  lock_profile: boolean;
+  @Column()
+  lock_profile: string;
 
-  @Column('text', { array: true, nullable: true })
+  @Column("simple-array")
   email_list: string[];
 
-  @Column('text', { array: true, nullable: true })
+  @Column("simple-array", { nullable: true })
   phone_list: string[];
 
-  @Column({ nullable: true })
+  @Column()
   user_about: string;
 
-  @Column({ nullable: true })
+  @Column()
   user_nickname: string;
 
   @Column({ nullable: true })
   present_town: string;
 
-  @Column({ nullable: true })
+  @Column()
   turn_on_earning_dashboard: boolean;
 
-  @Column({ nullable: true })
+  @Column()
   date_of_birth_show_type: string;
 
-  @Column({ nullable: true })
+  @Column()
   email_privacy: string;
 
-  @Column({ nullable: true })
+  @Column()
+  isProfileVerified: boolean;
+
+  @Column()
   fullName: string;
 
-  @OneToMany(() => Post, (post) => post.user)
-  posts: Post[];
-
-  @OneToMany(() => StoryImage, (storyImage) => storyImage.user)
-  storyImages: StoryImage[];
-
-  @OneToMany(() => StoryText, (storyText) => storyText.user)
-  storyTexts: StoryText[];
-  
+  @Column()
+  password: string;
 }
