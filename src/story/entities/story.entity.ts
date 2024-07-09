@@ -6,7 +6,7 @@ export class Story {
   @PrimaryGeneratedColumn('uuid')
   _id: string;
 
-  @Column()
+  @Column({ nullable: true })
   image: string;
 
   @Column({ nullable: true })

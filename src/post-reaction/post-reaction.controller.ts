@@ -3,7 +3,7 @@ import { PostReactionService } from './post-reaction.service';
 import { CreatePostReactionDto } from './dto/create-post-reaction.dto';
 import { PostReaction } from './entities/post-reaction.entity';
 
-@Controller('api')
+@Controller('api/reactions')
 export class PostReactionController {
   constructor(private readonly postReactionService: PostReactionService) {}
 

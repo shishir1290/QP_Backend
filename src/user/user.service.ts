@@ -13,6 +13,8 @@ export class UserService {
 
   async create(createUserDto: CreateUserDto): Promise<User> {
     createUserDto.__v = 0;
+    const date = createUserDto.day + '/' + createUserDto.month + '/' + createUserDto.year;
+    createUserDto.date_of_birth = new Date(date);
     const user = this.userRepository.create(createUserDto);
     
     return this.userRepository.save(user);

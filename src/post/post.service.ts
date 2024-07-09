@@ -21,14 +21,11 @@ export class PostService {
     return this.postRepository.save(post);
   }
 
-  async findAll(pageNo: number = 1, pageSize: number = 10): Promise<[Post[], number]> {
-    const skip = (pageNo - 1) * pageSize;
-    const [posts, totalPosts] = await this.postRepository.findAndCount({
+  async findAll(): Promise<Post[]> {
+    const posts = await this.postRepository.find({
       relations: ['user'],
-      skip,
-      take: pageSize,
     });
-    return [posts, totalPosts];
+    return posts;
   }
 
   async findOne(id: string): Promise<Post> {

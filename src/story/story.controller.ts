@@ -7,11 +7,11 @@ import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Response } from 'express';
 
-@Controller('story')
+@Controller('api/story')
 export class StoryController {
   constructor(private readonly storyService: StoryService) {}
 
-  @Post()
+  @Post('create-story-image/:user_id')
   @UseInterceptors(FileInterceptor('file', {
     storage: diskStorage({
       destination: './images/story',
@@ -21,7 +21,10 @@ export class StoryController {
       },
     }),
   }))
-  create(@Body() createStoryImageDto: CreateStoryImageDto): Promise<Story> {
+  create(@Body() createStoryImageDto: CreateStoryImageDto, @Param('user_id') user_id: string): Promise<Story> {
+    console.log('user_id', user_id);
+    console.log('createStoryImageDto', createStoryImageDto);
+    createStoryImageDto.user_id = user_id;
     return this.storyService.create(createStoryImageDto);
   }
 
@@ -32,6 +35,12 @@ export class StoryController {
   }
 
 
+  // get story by user id
+  @Get('user/:user_id')
+  async findAllByUser(@Param('user_id') user_id: string): Promise<Story[]> {
+    const story = await this.storyService.findAllByUser(user_id);
+    return story;
+  }
   
   @Get()
   findAll(): Promise<Story[]> {

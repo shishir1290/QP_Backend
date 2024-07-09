@@ -42,6 +42,11 @@ export class CreateUserDto {
   @IsNotEmpty()
   religion: CreateReligionDto;
 
+  day: number;
+  month: number;
+  year: number;
+
+  
   @IsDate()
   @IsNotEmpty()
   date_of_birth: Date;

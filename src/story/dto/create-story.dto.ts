@@ -93,7 +93,7 @@ export class CreateStoryImageDto {
   UpdatedAt?: Date;
 
   @IsDateString()
-  User_Id?: string;
+  user_id?: string;
 
   @IsOptional()
   @IsNotEmpty()

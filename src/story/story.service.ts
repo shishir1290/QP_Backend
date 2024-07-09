@@ -17,6 +17,13 @@ export class StoryService {
     return this.storyRepository.save(story);
   }
 
+  // get all stories by user id
+  async findAllByUser(user_id: string): Promise<Story[]> {
+    const story = await this.storyRepository.find({ where: { user_id } });
+    console.log(story);
+    return story;
+  }
+
   findAll(): Promise<Story[]> {
     return this.storyRepository.find();
   }
