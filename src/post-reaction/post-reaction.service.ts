@@ -12,6 +12,17 @@ export class PostReactionService {
   ) {}
 
   async create(createPostReactionDto: CreatePostReactionDto): Promise<PostReaction | any> {
+    const reaction = await this.postReactionRepository.findOne({ where: { post_id: createPostReactionDto.post_id, user_id: createPostReactionDto.user_id } });
+    if(reaction){
+      if(reaction.reaction_type === createPostReactionDto.reaction_type){
+        await this.postReactionRepository.delete(reaction._id);
+        return { status: 200, message: 'Post reaction removed successfully' };
+      }else if(reaction.reaction_type !== createPostReactionDto.reaction_type){
+        reaction.reaction_type = createPostReactionDto.reaction_type;
+        await this.postReactionRepository.save(reaction);
+        return { status: 200, message: 'Post reaction updated successfully' };
+      }
+    }
     const postReaction = this.postReactionRepository.create(createPostReactionDto);
     await this.postReactionRepository.save(postReaction);
     return { status: 201, message: 'Post reaction added successfully' };

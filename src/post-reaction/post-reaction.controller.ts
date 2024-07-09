@@ -9,6 +9,7 @@ export class PostReactionController {
 
   @Post('save-reaction-main-post')
   create(@Body() createPostReactionDto: CreatePostReactionDto): Promise<PostReaction> {
+    console.log(createPostReactionDto);
     return this.postReactionService.create(createPostReactionDto);
   }
 

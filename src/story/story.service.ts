@@ -20,7 +20,6 @@ export class StoryService {
   // get all stories by user id
   async findAllByUser(user_id: string): Promise<Story[]> {
     const story = await this.storyRepository.find({ where: { user_id } });
-    console.log(story);
     return story;
   }
 

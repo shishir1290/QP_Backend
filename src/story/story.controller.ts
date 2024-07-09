@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, Res, UploadedFile } from '@nestjs/common';
 import { StoryService } from './story.service';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
@@ -12,7 +12,7 @@ export class StoryController {
   constructor(private readonly storyService: StoryService) {}
 
   @Post('create-story-image/:user_id')
-  @UseInterceptors(FileInterceptor('file', {
+  @UseInterceptors(FileInterceptor('image', {
     storage: diskStorage({
       destination: './images/story',
       filename: (req, file, cb) => {
@@ -21,8 +21,9 @@ export class StoryController {
       },
     }),
   }))
-  create(@Body() createStoryImageDto: CreateStoryImageDto, @Param('user_id') user_id: string): Promise<Story> {
+  create(@Body() createStoryImageDto: CreateStoryImageDto, @Param('user_id') user_id: string,  @UploadedFile() file: Express.Multer.File,): Promise<Story> {
     console.log('user_id', user_id);
+    createStoryImageDto.image = file.filename;
     console.log('createStoryImageDto', createStoryImageDto);
     createStoryImageDto.user_id = user_id;
     return this.storyService.create(createStoryImageDto);
@@ -31,7 +32,7 @@ export class StoryController {
 
   @Get('stories/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
-    return res.sendFile(filename, { root: './images/profile-pics' });
+    return res.sendFile(filename, { root: './images/story' });
   }
 
 
