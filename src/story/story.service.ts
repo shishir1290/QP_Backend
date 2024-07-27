@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { Not, Repository } from 'typeorm';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -21,6 +21,14 @@ export class StoryService {
   // get all stories by user id
   async findAllByUser(user_id: string): Promise<Story[]> {
     const story = await this.storyRepository.find({ where: { user_id } });
+    return story;
+  }
+
+  // get all users story without 1 user by user id
+  async findAllByAllUser(user_id: string): Promise<Story[]> {
+    const user = await this.userRepository.findOne({ where: { _id: user_id } });
+    
+    const story = await this.storyRepository.find({ where: { user_id: Not(user_id) } });
     return story;
   }
 
