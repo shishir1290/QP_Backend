@@ -12,6 +12,7 @@ export class PostCommentService {
   ) {}
 
   create(createPostCommentDto: CreatePostCommentDto): Promise<PostComment> {
+    createPostCommentDto.created_at = new Date();
     const postComment = this.postCommentRepository.create(createPostCommentDto);
     return this.postCommentRepository.save(postComment);
   }
@@ -31,5 +32,9 @@ export class PostCommentService {
 
   async remove(id: string): Promise<void> {
     await this.postCommentRepository.delete(id);
+  }
+
+  async getCommentsByPostId(postId: string): Promise<PostComment[]> {
+    return this.postCommentRepository.find({ where: { post_id: postId } });
   }
 }

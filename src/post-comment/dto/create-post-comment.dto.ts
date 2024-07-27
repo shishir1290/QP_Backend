@@ -16,4 +16,6 @@ export class CreatePostCommentDto {
   @IsOptional()
   @IsString()
   image_or_video?: string;
+
+  created_at: Date;
 }

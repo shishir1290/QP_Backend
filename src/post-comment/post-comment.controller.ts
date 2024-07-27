@@ -56,4 +56,11 @@ export class PostCommentController {
   remove(@Param('id') id: string): Promise<void> {
     return this.postCommentService.remove(id);
   }
+
+
+  // get comment by post id
+  @Get('get-comments-by-post/:id')
+  getCommentsByPostId(@Param('id') id: string): Promise<PostComment[]> {
+    return this.postCommentService.getCommentsByPostId(id);
+  }
 }

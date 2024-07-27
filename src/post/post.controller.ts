@@ -50,7 +50,7 @@ export class PostController {
     return res.sendFile(filename, { root: './images/posts' });
   }
 
-  @Get(':id')
+  @Get('post-by-id/:id')
   findOne(@Param('id') id: string): Promise<PostEntity> {
     return this.postService.findOne(id);
   }

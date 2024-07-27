@@ -23,12 +23,14 @@ export class PostService {
 
   async findAll(page: number, limit: number): Promise<{ posts: Post[], total: number }> {
     const [posts, total] = await this.postRepository.findAndCount({
-      skip: (page - 1) * limit,
-      take: limit,
-      order: { createdAt: 'DESC' }, // Order by createdAt in descending order
+        skip: (page - 1) * limit,  // Skip previous pages
+        take: limit,               // Limit the number of results per page
+        order: { createdAt: 'DESC' }, // Order posts by creation date in descending order
     });
+
     return { posts, total };
-  }
+}
+
 
 
   async findOne(id: string): Promise<Post> {

@@ -16,4 +16,7 @@ export class PostComment {
 
   @Column({ nullable: true })
   image_or_video?: string;
+
+  @Column({nullable: true})
+  created_at: Date;
 }
