@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, UploadedFile, Res } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseInterceptors, UploadedFile, Res, Query } from '@nestjs/common';
 import { PostCommentService } from './post-comment.service';
 import { CreatePostCommentDto } from './dto/create-post-comment.dto';
 import { PostComment } from './entities/post-comment.entity';
@@ -32,16 +32,19 @@ export class PostCommentController {
     return this.postCommentService.create(createPostCommentDto);
   }
 
-
   @Get('comment-pics/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
     return res.sendFile(filename, { root: './images/posts' });
   }
 
-  
   @Get()
-  findAll(): Promise<PostComment[]> {
-    return this.postCommentService.findAll();
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('limit') limit: number = 5,
+  ): Promise<PostComment[]> {
+    const parsedPage = parseInt(page.toString(), 10) || 1;
+    const parsedLimit = parseInt(limit.toString(), 10) || 5;
+    return this.postCommentService.findAll(parsedPage, parsedLimit);
   }
 
   @Get(':id')

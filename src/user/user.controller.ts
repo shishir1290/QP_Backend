@@ -51,7 +51,6 @@ export class UserController {
 
   @Get('profile-pics/:filename')
   async serveProfilePic(@Param('filename') filename: string, @Res() res: Response) {
-    console.log('filename', filename);
     return res.sendFile(filename, { root: './images/profile-pics' });
   }
 

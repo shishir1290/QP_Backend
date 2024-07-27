@@ -21,15 +21,15 @@ export class PostService {
     return this.postRepository.save(post);
   }
 
-  async findAll(): Promise<Post[]> {
-    const posts = await this.postRepository.find({
-      relations: ['user'],
-      order: {
-        createdAt: 'DESC',
-      },
+  async findAll(page: number, limit: number): Promise<{ posts: Post[], total: number }> {
+    const [posts, total] = await this.postRepository.findAndCount({
+      skip: (page - 1) * limit,
+      take: limit,
+      order: { createdAt: 'DESC' }, // Order by createdAt in descending order
     });
-    return posts;
+    return { posts, total };
   }
+
 
   async findOne(id: string): Promise<Post> {
     try {

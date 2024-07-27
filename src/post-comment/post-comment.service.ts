@@ -16,9 +16,14 @@ export class PostCommentService {
     return this.postCommentRepository.save(postComment);
   }
 
-  findAll(): Promise<PostComment[]> {
-    return this.postCommentRepository.find();
+  async findAll(page: number, limit: number): Promise<PostComment[]> {
+    const skip = (page - 1) * limit;
+    return this.postCommentRepository.find({
+      skip,
+      take: limit,
+    });
   }
+
 
   findOne(id: string): Promise<PostComment> {
     return this.postCommentRepository.findOne({ where: { id } });

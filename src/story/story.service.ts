@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
 import { User } from 'src/user/entities/user.entity';
+import { validate as isUuid } from 'uuid';
 
 @Injectable()
 export class StoryService {

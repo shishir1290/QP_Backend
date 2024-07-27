@@ -6,6 +6,7 @@ import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
 import { extname } from 'path';
 import { Response } from 'express';
+import { validate as isUuid } from 'uuid';
 
 @Controller('api/story')
 export class StoryController {

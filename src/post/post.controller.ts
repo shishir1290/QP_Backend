@@ -29,13 +29,19 @@ export class PostController {
   }
 
   @Get('get-all-users-posts')
-  async findAll(): Promise<{ status: number, posts: PostEntity[]}> {
-    const posts = await this.postService.findAll();
-    // const pageCount = Math.ceil(Number(totalPosts) / Number(pageSize));
+  async findAll(
+    @Query('page') page: number = 1,
+    @Query('pageSize') pageSize: number = 5,
+  ): Promise<{ status: number, posts: PostEntity[], total: number }> {
+    const pageNumber = page > 0 ? page : 1;
+    const pageSizeNumber = pageSize > 0 ? pageSize : 5;
+
+    const { posts, total } = await this.postService.findAll(pageNumber, pageSizeNumber);
 
     return {
-      status: 200,                
-      posts
+      status: 200,
+      posts,
+      total
     };
   }
 
