@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { In, Not, Repository } from 'typeorm';
+import { In, LessThan, MoreThan, Not, Repository } from 'typeorm';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -20,29 +20,50 @@ export class StoryService {
 
   // get all stories by user id
   async findAllByUser(user_id: string): Promise<Story[]> {
-    const story = await this.storyRepository.find({ where: { user_id } });
-    return story;
+    // Calculate the timestamp for 24 hours ago
+    const twentyFourHoursAgo = new Date();
+    twentyFourHoursAgo.setDate(twentyFourHoursAgo.getDate() - 1);
+
+    // Query the repository with the user_id and createdAt condition
+    const stories = await this.storyRepository.find({
+      where: {
+        user_id,
+        CreatedAt: MoreThan(twentyFourHoursAgo),
+      },
+    });
+
+    return stories;
   }
 
   // get all users story without 1 user by user id
   async findAllByAllUser(user_id: string): Promise<Story[]> {
-    const stories = await this.storyRepository.find({ where: { user_id: Not(user_id) } });
-  
+    // Calculate the timestamp for 24 hours ago
+    const twentyFourHoursAgo = new Date();
+    twentyFourHoursAgo.setDate(twentyFourHoursAgo.getDate() - 1);
+
+    const stories = await this.storyRepository.find({
+      where: { 
+        user_id: Not(user_id), 
+        CreatedAt: MoreThan(twentyFourHoursAgo) 
+      },
+    });
+
     if (stories.length === 0) {
       return [];
     }
-  
+
     const uniqueUserIds = [...new Set(stories.map((story) => story.user_id))];
     const firstStories = await this.storyRepository.find({
       where: {
         user_id: In(uniqueUserIds),
+        CreatedAt: MoreThan(twentyFourHoursAgo),
       },
       order: {
         CreatedAt: 'ASC',
       },
       take: 1, // Get the first story for each user
     });
-  
+
     return firstStories;
   }
 
@@ -51,7 +72,7 @@ export class StoryService {
   }
 
   findOne(id: string): Promise<Story> {
-    return this.storyRepository.findOne({ where: { _id : id } });
+    return this.storyRepository.findOne({ where: { _id: id } });
   }
 
   async remove(id: string): Promise<void> {

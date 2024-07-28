@@ -23,10 +23,18 @@ export class StoryController {
     }),
   }))
   create(@Body() createStoryImageDto: CreateStoryImageDto, @Param('user_id') user_id: string,  @UploadedFile() file: Express.Multer.File,): Promise<Story> {
-    console.log('user_id', user_id);
+    
     createStoryImageDto.image = file.filename;
-    console.log('createStoryImageDto', createStoryImageDto);
     createStoryImageDto.user_id = user_id;
+    return this.storyService.create(createStoryImageDto);
+  }
+
+
+  @Post('create-story-text/:user_id')
+  createText(@Body() createStoryImageDto: CreateStoryImageDto, @Param('user_id') user_id: string): Promise<Story> {
+    console.log(user_id);
+    createStoryImageDto.user_id = user_id;
+    console.log(createStoryImageDto);
     return this.storyService.create(createStoryImageDto);
   }
 
