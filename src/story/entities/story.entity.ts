@@ -75,6 +75,6 @@ export class Story {
   @Column({ default: 0 })
   __v: number;
 
-  @Column()
+  @Column({type: 'uuid'})
     user_id: string;
 }

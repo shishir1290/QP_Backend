@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Not, Repository } from 'typeorm';
+import { In, Not, Repository } from 'typeorm';
 import { Story } from './entities/story.entity';
 import { CreateStoryImageDto } from './dto/create-story.dto';
 import { User } from 'src/user/entities/user.entity';
@@ -26,10 +26,24 @@ export class StoryService {
 
   // get all users story without 1 user by user id
   async findAllByAllUser(user_id: string): Promise<Story[]> {
-    const user = await this.userRepository.findOne({ where: { _id: user_id } });
-    
-    const story = await this.storyRepository.find({ where: { user_id: Not(user_id) } });
-    return story;
+    const stories = await this.storyRepository.find({ where: { user_id: Not(user_id) } });
+  
+    if (stories.length === 0) {
+      return [];
+    }
+  
+    const uniqueUserIds = [...new Set(stories.map((story) => story.user_id))];
+    const firstStories = await this.storyRepository.find({
+      where: {
+        user_id: In(uniqueUserIds),
+      },
+      order: {
+        CreatedAt: 'ASC',
+      },
+      take: 1, // Get the first story for each user
+    });
+  
+    return firstStories;
   }
 
   findAll(): Promise<Story[]> {

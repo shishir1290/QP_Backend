@@ -47,12 +47,10 @@ export class StoryController {
   // get all users story without 1 user by user id
   @Get('all-user/:user_id')
   async findAllByAllUser(@Param('user_id') user_id: string): Promise<Story[]> {
-    const story = await this.storyService.findAllByAllUser(user_id);
-    if(!story) {
-      return null;
-    }
-    return story;
+    const firstStories = await this.storyService.findAllByAllUser(user_id);
+    return firstStories;
   }
+
 
   @Get()
   findAll(): Promise<Story[]> {
